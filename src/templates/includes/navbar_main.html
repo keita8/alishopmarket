@@ -1,0 +1,19 @@
+{% load static %}
+
+<nav class="navbar navbar-main navbar-expand pl-0">
+      <ul class="navbar-nav flex-wrap">
+      	<li class="nav-item">
+           <a class="nav-link" href="{% url 'home' %}">Accueil</a>
+		</li>
+
+		{% for categorie_item in categories %}
+			
+		     <li class="nav-item">
+          		<a class="nav-link" href="{{ categorie_item.get_url }}">{{ categorie_item.category_name|capfirst }}</a>
+        		</li>
+
+		{% endfor %}
+
+
+      </ul>
+</nav> <!-- navbar-main  .// -->

@@ -1,0 +1,101 @@
+{% load static %}
+
+<header class="section-header">
+
+	{% if 'store' in request.path %}
+
+	  {% include "includes/store_nav_section.html" %}
+
+	{% else %}
+
+		<nav class="navbar d-none d-md-flex p-md-0 navbar-expand-sm navbar-light border-bottom">
+			<div class="container">
+			  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTop4" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+			    <span class="navbar-toggler-icon"></span>
+			  </button>
+			  <div class="collapse navbar-collapse" id="navbarTop4">
+
+			  		{% include "includes/authentication.html" %}
+
+				    <ul class="navbar-nav">
+						<li><a href="{% url 'store:shop' %}" class="nav-link"> Store </a></li>
+						<li><a href="#" class="nav-link"> <i class="fa fa-bell"></i> </a></li>
+						<li><a href="#" class="nav-link"> <i class="fa fa-shopping-cart"></i> </a></li>
+					</ul> <!-- list-inline //  -->
+			  </div> <!-- navbar-collapse .// -->
+			</div> <!-- container //  -->
+		</nav>
+
+	{% endif %}
+
+<div class="container">
+	<section class="header-main border-bottom">
+		<div class="row row-sm">
+			<div class="col-6 col-sm col-md col-lg  flex-grow-0">
+				<a href="{% url 'home' %}" class="brand-wrap">
+					<img class="logo" src="{% static 'images/logo.svg' %}">
+				</a> <!-- brand-wrap.// -->
+			</div>
+			<div class="col-6 col-sm col-md col-lg flex-md-grow-0">
+
+				<!-- mobile-only -->
+				<div class="d-md-none float-right">
+					{% comment %}
+						<a href="#" class="btn btn-light"> <i class="fa fa-bell"></i> </a>
+					{% endcomment %}
+					<a href="/" class="btn btn-light"> <i class="fa fa-user"></i> </a>
+					<a href="#" class="btn btn-light"> <i class="fa fa-shopping-cart"></i> 2 </a>
+				</div>
+				<!-- mobile-only //end  -->
+
+				<div class="category-wrap d-none dropdown d-md-inline-block">
+					<button type="button" class="btn btn-light dropdown-toggle" data-toggle="dropdown">   Trier par
+					</button>
+					<div class="dropdown-menu">
+						{% for categorie in  categories %}
+						<a class="dropdown-item" href="#">{{ categorie.category_name|capfirst }}</a>
+						{% endfor %}
+					</div>
+				</div>  <!-- category-wrap.// -->
+			</div> <!-- col.// -->
+
+			{% comment %}
+				
+			<div class="col-lg-6 col-xl col-md-5 col-sm-12 flex-grow-1">
+				<form action="#" class="search-header">
+					<div class="input-group">
+					    <input type="text" class="form-control" placeholder="Chercher">
+				    </div>
+				</form> 
+			</div> 
+
+			{% endcomment %}
+
+			<div class="col-xl-6 col-lg-5 col-md-6">
+				<form action="#" class="search-header">
+					<div class="input-group w-100">
+					    <input type="text" class="form-control" placeholder="Chercher">
+					    
+					    <div class="input-group-append">
+					      <button class="btn btn-primary" type="submit">
+					        <i class="fa fa-search"></i>
+					      </button>
+					    </div>
+				    </div>
+				</form> <!-- search-wrap .end// -->
+			</div> <!-- col.// -->
+
+<!-- 			<div class="col col-lg col-md flex-grow-0">
+			    <button class="btn btn-block btn-light" type="submit"> Advanced </button>
+			</div> -->
+		</div> <!-- row.// -->
+	</section> <!-- header-main .// -->
+
+
+
+
+{% include "includes/navbar_main.html" %}
+
+
+</div> <!-- container.// -->
+</header> <!-- section-header.// -->
