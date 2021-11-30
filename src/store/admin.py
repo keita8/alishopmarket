@@ -3,9 +3,9 @@ from .models import Product
 # Register your models here.
 
 class ProductAdmin(admin.ModelAdmin):
-	list_display = ['product_name', 'price', 'stock', 'category', 'created_date', 'is_available']
+	list_display = ['product_name', 'price', 'stock', 'category', 'condition', 'is_available', 'free_shipping', 'created_date']
 	prepopulated_fields = {'slug' : ('product_name', )}
-	list_editable = ['is_available']
+	list_editable = ['is_available', 'free_shipping']
 	search_fields = ['product_name', 'price']
 
 

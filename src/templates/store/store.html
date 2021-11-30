@@ -13,10 +13,12 @@
 
 	<div class="row">
 		<aside class="col-md-2">
-
+		<form action="" method="POST">
+		{% csrf_token %}
+		
 		<article class="filter-group">
 			<h6 class="title">
-				<a href="#" class="dropdown-toggle" data-toggle="collapse" data-target="#collapse_1">Categories</a>
+				<a href="#" class="dropdown-toggle" data-toggle="collapse" data-target="#collapse_1">Categorie</a>
 			</h6>
 			<div class="filter-content collapse show" id="collapse_1">
 				<div class="inner">
@@ -31,9 +33,10 @@
 				</div> <!-- inner.// -->
 			</div>
 		</article> <!-- filter-group  .// -->
+
 		<article class="filter-group">
 			<h6 class="title">
-				<a href="#" class="dropdown-toggle" data-toggle="collapse" data-target="#collapse_2"> Marques </a>
+				<a href="#" class="dropdown-toggle" data-toggle="collapse" data-target="#collapse_2"> Marque </a>
 			</h6>
 			<div class="filter-content collapse show" id="collapse_2">
 				<div class="inner">
@@ -65,30 +68,10 @@
 				</div> <!-- inner.// -->
 			</div>
 		</article> <!-- filter-group .// -->
+
 		<article class="filter-group">
 			<h6 class="title">
-				<a href="#" class="dropdown-toggle" data-toggle="collapse" data-target="#collapse_3"> Prix </a>
-			</h6>
-			<div class="filter-content collapse show" id="collapse_3">
-				<div class="inner">
-					<input type="range" class="custom-range" min="0" max="100" name="">
-					<div class="form-row">
-					<div class="form-group col-md-6">
-					  <label>Min</label>
-					  <input class="form-control" placeholder="$0" type="number">
-					</div>
-					<div class="form-group text-right col-md-6">
-					  <label>Max</label>
-					  <input class="form-control" placeholder="$1,0000" type="number">
-					</div>
-					</div> <!-- form-row.// -->
-					<button class="btn btn-block btn-primary">Apply</button>
-				</div> <!-- inner.// -->
-			</div>
-		</article> <!-- filter-group .// -->
-		<article class="filter-group">
-			<h6 class="title">
-				<a href="#" class="dropdown-toggle" data-toggle="collapse" data-target="#collapse_4"> Tailles </a>
+				<a href="#" class="dropdown-toggle" data-toggle="collapse" data-target="#collapse_4"> Taille </a>
 			</h6>
 			<div class="filter-content collapse show" id="collapse_4">
 				  <div class="inner">
@@ -114,35 +97,57 @@
 				  </div> <!-- inner.// -->
 			</div>
 		</article> <!-- filter-group .// -->
+
 		<article class="filter-group">
 			<h6 class="title">
 				<a href="#" class="dropdown-toggle" data-toggle="collapse" data-target="#collapse_5"> Condition </a>
 			</h6>
 			<div class="filter-content collapse show" id="collapse_5">
 				<div class="inner">
+
+
 					<label class="custom-control custom-radio">
-					  <input type="radio" name="myfilter_radio" checked="" class="custom-control-input">
-					  <div class="custom-control-label">Any condition</div>
+					  <input type="radio" name="myfilter_radio" class="custom-control-input">
+					  <div class="custom-control-label">Nouveauté </div>
 					</label>
 
 					<label class="custom-control custom-radio">
 					  <input type="radio" name="myfilter_radio" class="custom-control-input">
-					  <div class="custom-control-label">Brand new </div>
+					  <div class="custom-control-label">Usagé</div>
 					</label>
 
 					<label class="custom-control custom-radio">
 					  <input type="radio" name="myfilter_radio" class="custom-control-input">
-					  <div class="custom-control-label">Used items</div>
-					</label>
-
-					<label class="custom-control custom-radio">
-					  <input type="radio" name="myfilter_radio" class="custom-control-input">
-					  <div class="custom-control-label">Very old</div>
+					  <div class="custom-control-label">Vetusté</div>
 					</label>
 				</div> <!-- inner.// -->
 			</div>
 		</article> <!-- filter-group .// -->
+		
+		<article class="filter-group">
+			<h6 class="title">
+				<a href="#" class="dropdown-toggle" data-toggle="collapse" data-target="#collapse_3"> Prix </a>
+			</h6>
+			<div class="filter-content collapse show" id="collapse_3">
+				<div class="inner">
+					<input type="range" class="custom-range" min="0" max="100" name="">
+					<div class="form-row">
+					<div class="form-group col-md-6">
+					  <label>Min</label>
+					  <input class="form-control" placeholder="$0" type="number">
+					</div>
+					<div class="form-group text-right col-md-6">
+					  <label>Max</label>
+					  <input class="form-control" placeholder="$1,0000" type="number">
+					</div>
+					</div> <!-- form-row.// -->
+					<button class="btn btn-block btn-primary">Appliquer</button>
+				</div> <!-- inner.// -->
+			</div>
+		</article> <!-- filter-group .// -->
 
+
+		</form>
 		</aside> <!-- col.// -->
 		<main class="col-md-10">
 
@@ -150,111 +155,169 @@
 	<header class="mb-3">
 			<div class="form-inline">
 
-				{% if store_product %}
+				{% if available_product %}
 				<strong class="mr-md-auto">{{product_count}}
 				article{{ product_count|pluralize }} 
-				trouvé{{product_count|pluralize}}
+				disponible{{product_count|pluralize}}
 				</strong> 
+
+				<select class="mr-2 form-control">
+					{% for cat in most_recent_categories  %}
+					
+					<option value="{{ cat.category_name }}"><a href="{{ cat.get_url }}"></a> {{cat.category_name|safe|capfirst}}</a> </option>
+					
+					{% endfor %}
+				</select>
 				{% else %}
 					
 
 					
 				{% endif %}
-				<select class="mr-2 form-control">
-					<option>Recents</option>
-					<option>Trending</option>
-					<option>Most Popular</option>
-					<option>Cheapest</option>
-				</select>
 			</div>
 	</header><!-- sect-heading -->
 
-	{% for product in store_product %}
-		
-	<article class="card card-product-list">
-		<div class="row no-gutters">
-			<aside class="col-md-3">
-				<a href="{{ product.get_url }}" class="img-wrap">
-					<span class="badge badge-danger"> NEW </span>
-					<img src="{{ product.image.url }}">
-				</a>
-			</aside> <!-- col.// -->
-			<div class="col-md-6">
-				<div class="info-main">
-					<a href="{{ product.get_url }}" class="h5 title">{{ product.product_name|safe }}</a>
-					<div class="rating-wrap mb-2">
-						<ul class="rating-stars">
-							<li style="width:100%" class="stars-active"> 
-								<i class="fa fa-star"></i> <i class="fa fa-star"></i> 
-								<i class="fa fa-star"></i> <i class="fa fa-star"></i> 
-								<i class="fa fa-star"></i> 
-							</li>
-							<li>
-								<i class="fa fa-star"></i> <i class="fa fa-star"></i> 
-								<i class="fa fa-star"></i> <i class="fa fa-star"></i> 
-								<i class="fa fa-star"></i> 
-							</li>
-						</ul>
-						<div class="label-rating">9/10</div>
-					</div> <!-- rating-wrap.// -->
-				
-					<p class="mb-3">
-						<span class="tag"> <i class="fa fa-check"></i> Verified</span> 
-						<span class="tag"> 5 Years </span> 
-						<span class="tag"> 80 reviews </span>
-						<span class="tag"> Russia </span>
-					</p>
+	{% if available_product  %}
+	
 
-					<p> {{ product.description|safe }} </p>
+		{% for product in available_product %}
+			
+		<article class="card card-product-list">
+			<div class="row no-gutters">
+				<aside class="col-md-3">
+					<a href="{{ product.get_url }}" class="img-wrap">
+						{% if new in product.condition %}
+						
+							<span class="badge badge-success">
+								{{new}}
+							</span>
 
-				</div> <!-- info-main.// -->
-			</div> <!-- col.// -->
-			<aside class="col-sm-3">
-				<div class="info-aside">
-					<div class="price-wrap">
-						<span class="h5 price">£{{ product.price|floatformat:2 }}</span> 
-						<small class="text-muted">/unité</small>
-					</div> <!-- price-wrap.// -->
-					<small class="text-warning">Livraison gratuite</small>
+						{% elif used in product.condition  %}
+
+							<span class="badge badge-warning">
+								{{used}}
+							</span>
+
+						{% elif old in product.condition %}
+
+							<span class="badge badge-danger">
+								{{old}}
+							</span>
+
+						{% else %}
+
+						{% endif %}
+
+						<img src="{{ product.image.url }}">
+					</a>
+				</aside> <!-- col.// -->
+				<div class="col-md-6">
+					<div class="info-main">
+						<a href="{{ product.get_url }}" class="h5 title">{{ product.product_name|safe|capfirst }}</a>
+						<div class="rating-wrap mb-2">
+							<ul class="rating-stars">
+								<li style="width:100%" class="stars-active"> 
+									<i class="fa fa-star"></i> <i class="fa fa-star"></i> 
+									<i class="fa fa-star"></i> <i class="fa fa-star"></i> 
+									<i class="fa fa-star"></i> 
+								</li>
+								<li>
+									<i class="fa fa-star"></i> <i class="fa fa-star"></i> 
+									<i class="fa fa-star"></i> <i class="fa fa-star"></i> 
+									<i class="fa fa-star"></i> 
+								</li>
+							</ul>
+							<div class="label-rating">9/10</div>
+						</div> <!-- rating-wrap.// -->
 					
-					<p class="text-muted mt-3">Grand textile Co</p>
-					<p class="mt-3">
-						<a href="#" class="btn btn-outline-primary"> <i class="fa fa-envelope"></i> Contact supplier </a>
-						<a href="#" class="btn btn-light"><i class="fa fa-heart"></i> Save </a>
-					</p>
+						<p class="mb-3">
+							<span class="tag"> <i class="fa fa-check"></i> Verified</span> 
+							<span class="tag"> 5 Years </span> 
+							<span class="tag"> 80 reviews </span>
+							<span class="tag"> {{product.manufacturer}} </span>
+						</p>
 
-					<label class="custom-control mt-3 custom-checkbox">
-						  <input type="checkbox" class="custom-control-input">
-					  	  <div class="custom-control-label">Add to compare
-					  </div>
-					</label>
+						<p> {{ product.description|safe }} </p>
 
-				</div> <!-- info-aside.// -->
-			</aside> <!-- col.// -->
-		</div> <!-- row.// -->
-	</article> <!-- card-product .// -->
+					</div> <!-- info-main.// -->
+				</div> <!-- col.// -->
+				<aside class="col-sm-3">
+					<div class="info-aside">
+						<div class="price-wrap">
+							<span class="h5 price">£{{ product.price|floatformat:2 }}</span> 
+							<!-- <small class="text-muted">/unité</small> -->
+						</div> <!-- price-wrap.// -->
+						<small class="text-warning">
+							{% if product.free_shipping %}
+								Livraison gratuite
+							{% endif %}
+						</small>
+						
+						<p class="text-muted mt-3">Grand textile Co</p>
+						<p class="mt-3">
+							<a href="{% url 'carts:add_cart' product.id %}" class="btn btn-outline-primary"> <i class="fas fa-shopping-cart"></i> Ajouter au panier </a>
+							<!-- <a href="#" class="btn btn-light"><i class="fa fa-heart"></i> Save </a> -->
+						</p>
+	<!-- 
+						<label class="custom-control mt-3 custom-checkbox">
+							  <input type="checkbox" class="custom-control-input">
+						  	  <div class="custom-control-label">Add to compare
+						  </div>
+						</label> -->
 
-	{% endfor %}
+					</div> <!-- info-aside.// -->
+				</aside> <!-- col.// -->
+			</div> <!-- row.// -->
+		</article> <!-- card-product .// -->
+
+		{% endfor %}
 
 
-	<nav class="mb-4" aria-label="Page navigation sample">
-	  <ul class="pagination">
-	    <li class="page-item disabled"><a class="page-link" href="#">&laquo;</a></li>
-	    <li class="page-item active"><a class="page-link" href="#">1</a></li>
-	    <li class="page-item"><a class="page-link" href="#">2</a></li>
-	    <li class="page-item"><a class="page-link" href="#">3</a></li>
-	    <li class="page-item"><a class="page-link" href="#">4</a></li>
-	    <li class="page-item"><a class="page-link" href="#">5</a></li>
-	    <li class="page-item"><a class="page-link" href="#">&raquo;</a></li>
-	  </ul>
-	</nav>
+		<nav class="mb-4" aria-label="Page navigation sample">
+	        {% if available_product.has_other_pages %}
+	        <ul class="pagination">
+	            <!-- page precedente -->
+	            {% if available_product.has_previous %}
+	            <li class="page-item "><a class="page-link" href="?page={{ available_product.previous_page_number }}">&laquo;</a></li>
+	            {% else %}
+	            <li class="page-item disabled"><a class="page-link" href="#">&laquo;</a></li>
+	            {% endif %}
+	            <!-- fin de la page precedente -->
+
+	            <!-- page courante -->
+	            {% for i in available_product.paginator.page_range %} {% if available_product.number == i %}
+	            <li class="page-item active"><a class="page-link" href="#">{{ i }}</a></li>
+	            {% else %}
+	            <li class="page-item"><a class="page-link" href="?page={{ i }}">{{ i }}</a></li>
+	            {% endif %} {% endfor %}
+	            <!-- fin de la page courante -->
+
+	            <!-- page suivante -->
+	            {% if available_product.has_next %}
+	            <li class="page-item "><a class="page-link" href="?page={{ available_product.next_page_number }}">&raquo;</a></li>
+	            {% else %}
+	            <li class="page-item disabled"><a class="page-link" href="#">&raquo;</a></li>
+	            {% endif %}
+	            <!-- fin de la page suivante -->
+	        </ul>
+	        {% endif %}
+		</nav>
 
 
-	<div class="box text-center">
-		<p>Avez-vous trouvé ce que vous chercher？</p>
-		<a href="" class="btn btn-light">Oui</a>
-		<a href="" class="btn btn-light">Non</a>
-	</div>
+		<div class="box text-center">
+			<p>Avez-vous trouvé ce que vous chercher？</p>
+			<a href="" class="btn btn-light">Oui</a>
+			<a href="" class="btn btn-light">Non</a>
+		</div>
+
+
+	{% else %}
+
+		<div class="container mx-auto mt-12 padding-y" style="mr-md-auto">
+		<h2 class="text-center">Aucun resultat trouvé</h2>
+		</div>
+		
+	{% endif %}
+
 
 
 		</main> <!-- col.// -->
@@ -268,5 +331,4 @@
 
 
 
-	
 {% endblock content %}

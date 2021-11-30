@@ -18,13 +18,32 @@
             <div class="card">
             <article class="gallery-wrap"> 
             	<div class="img-big-wrap">
-            	  <div> <a href="#"><img src="{{ single_product.image.url }}"></a></div>
+            	  <div> 
+                  <a href="{% url 'store:shop' %}">
+                    <img src="{{ single_product.image.url }}">
+                  </a>
+                </div>
             	</div> <!-- slider-product.// -->
             	<div class="thumbs-wrap">
-            	  <a href="#" class="item-thumb"> <img src="{% static 'images/items/15.jpg' %}"></a>
-            	  <a href="#" class="item-thumb"> <img src="{% static 'images/items/15.jpg' %}"></a>
-            	  <a href="#" class="item-thumb"> <img src="{% static 'images/items/15.jpg' %}"></a>
-            	  <a href="#" class="item-thumb"> <img src="{% static 'images/items/15.jpg' %}"></a>
+
+					{% if single_product.image1 %}
+            	  <a href=" {{single_product.product.get_url}} " class="item-thumb"> <img src=" {{single_product.image1.url}} "></a>
+					{% endif %}
+
+					{% if single_product.image2 %}
+				        <a href="{{single_product.product.get_url}} " class="item-thumb"> <img src="{{single_product.image2.url}}"></a> 
+					{% endif %}
+					
+					
+					{% if single_product.image3 %}		
+            	  <a href="{{single_product.product.get_url}}" class="item-thumb"> <img src="{{ single_product.image3.url }}"></a>
+					{% endif %}
+
+					
+					{% if single_product.image4 %}
+            	  <a href="{{single_product.product.get_url}}" class="item-thumb"> <img src="{{ single_product.image4.url }}"></a>
+					{% endif %}
+
             	</div> <!-- slider-nav.// -->
             </article> <!-- gallery-wrap .end// -->
             </div> <!-- card.// -->
@@ -59,7 +78,7 @@
 
                   <dl class="row">
                     <dt class="col-sm-3">Fabricant</dt>
-                    <dd class="col-sm-9"><a href="#">Great textile Ltd.</a></dd>
+                    <dd class="col-sm-9"><a href="#">{{ single_product.manufacturer|safe }}</a></dd>
 
                     <dt class="col-sm-3">Article numéro</dt>
                     <dd class="col-sm-9">596 065</dd>
@@ -74,7 +93,7 @@
 
                     {% if single_product.stock <= 0 or single_product.is_available == False %}
 
-                    <dd class="col-sm-9">En rupture de stock</dd>
+                    <dd class="col-sm-9 text-danger"><strong>En rupture de stock</strong></dd>
                       
                     {% else %}
 
@@ -85,25 +104,19 @@
                   </dl>
 
                 	<div class="form-row  mt-4">
-                		<div class="form-group col-md flex-grow-0">
-                			<div class="input-group mb-3 input-spinner">
-                			  <div class="input-group-prepend">
-                			    <button class="btn btn-light" type="button" id="button-plus"> + </button>
-                			  </div>
-                			  <input type="text" class="form-control" value="1">
-                			  <div class="input-group-append">
-                			    <button class="btn btn-light" type="button" id="button-minus"> &minus; </button>
-                			  </div>
-                			</div>
-                		</div> <!-- col.// -->
+					
+					{% if single_product.stock <= 0 or single_product.is_available == False %}
+
+					{% else %}
                 		<div class="form-group col-md">
-                			<a href="#"  class="btn  btn-primary"> 
+                			<a href="{% url 'carts:add_cart' single_product.id %}"  class="btn  btn-primary"> 
                 				<i class="fas fa-shopping-cart"></i> <span class="text">Ajouter au panier</span> 
                 			</a>
                 			<a href="#" class="btn btn-light">
-                        <i class="fas fa-envelope"></i> <span class="text">Contact supplier</span> 
+                        	<i class="fas fa-envelope"></i> <span class="text">Contact supplier</span> 
                 			</a>
                 		</div> <!-- col.// -->
+					{% endif %}
                 	</div> <!-- row.// -->
 
             </article> <!-- product-info-aside .// -->

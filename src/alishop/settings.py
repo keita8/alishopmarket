@@ -37,10 +37,13 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'phonenumber_field',
 
     'store',
     'category',
     'accounts',
+    'carts',
+    'ckeditor',
 ]
 
 MIDDLEWARE = [
@@ -67,13 +70,14 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
                 'category.context_processors.category_list',
+                'carts.context_processors.counter',
             ],
         },
     },
 ]
 
 WSGI_APPLICATION = 'alishop.wsgi.application'
-
+PHONENUMBER_DB_FORMAT = 'E164'
 
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
@@ -138,3 +142,22 @@ MEDIA_ROOT = BASE_DIR / 'media'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 AUTH_USER_MODEL = 'accounts.Account'
+
+from django.contrib.messages import constants as messages
+MESSAGE_TAGS = {
+    messages.ERROR: 'danger',
+}
+
+LOGIN_REDIRECT_URL = 'home'
+LOGOUT_URL = 'accounts:login'
+LOGIN_URL = 'home'
+
+# Configuration d'smtp server
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_HOST_USER = 'ansoumanekeita825@gmail.com'
+DEFAULT_FROM_EMAIL = 'ansoumanekeita825@gmail.com'
+EMAIL_HOST_PASSWORD = 'vucjon-bavrY8-kovbuw'
+EMAIL_USE_TLS = True
+

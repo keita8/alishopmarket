@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
+from phonenumber_field.modelfields import PhoneNumberField
 # Create your models here.
 
 
@@ -54,11 +55,13 @@ class MyAccountManager(BaseUserManager):
 
 
 class Account(AbstractBaseUser):
-	first_name = models.CharField(max_length=80, verbose_name='Prenom')
-	last_name  = models.CharField(max_length=80, verbose_name='Nom')
+	first_name = models.CharField(max_length=80, verbose_name='Nom')
+	last_name  = models.CharField(max_length=80, verbose_name='Prenom')
 	username   = models.CharField(max_length=80, unique=True, verbose_name="Nom d'utilisateur")
 	email      = models.CharField(max_length=200, unique=True, verbose_name='Email')
 	phone      = models.CharField(max_length=20, verbose_name='Telephone')
+	# phone      = PhoneNumberField()
+
 
 	# required
 	date_joined   = models.DateTimeField(auto_now_add=True, verbose_name='Compte crée')

@@ -24,7 +24,32 @@
 		    	
 			<div class="col-xl-3 col-lg-3 col-md-4 col-6">
 				<div class="card card-product-grid">
-					<a href="{{ article.get_url }}" class="img-wrap"> <img src="{{ article.image.url }}"> </a>
+					<a href="{{ article.get_url }}" class="img-wrap"> 
+
+						{% if new in article.condition %}
+						
+							<span class="badge badge-success">
+								{{new}}
+							</span>
+
+						{% elif used in article.condition  %}
+
+							<span class="badge badge-warning">
+								{{used}}
+							</span>
+
+						{% elif old in article.condition %}
+
+							<span class="badge badge-danger">
+								{{old}}
+							</span>
+
+						{% else %}
+
+						{% endif %}
+
+						<img src="{{ article.image.url }}"> 
+					</a>
 					<figcaption class="info-wrap">
 		                <ul class="rating-stars mb-1">
 		                	<li style="width:80%" class="stars-active">
@@ -35,8 +60,8 @@
 							</li>
 						</ul>
 						<div>
-							<a href="#" class="text-muted">Clothes</a>
-		                	<a href="{{ article.get_url }}" class="title">{{ article.product_name|safe }}</a>
+							<a href="{{ article.category.get_url }}" class="text-muted"> {{article.category.category_name|capfirst }} </a>
+		                	<a href="{{ article.get_url }}" class="title">{{ article.product_name|safe|capfirst }}</a>
 						</div>
 						<div class="price h5 mt-2">$ {{article.price|floatformat:2}} </div> <!-- price.// -->
 					</figcaption>

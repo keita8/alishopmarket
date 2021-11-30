@@ -11,10 +11,10 @@
 						</a> <!-- brand-wrap.// -->
 					</div>
 					<div class="col-xl-6 col-lg-5 col-md-6">
-						<form action="#" class="search-header">
+						<form action="{% url 'store:search' %}" class="search-header" method="GET" required="required">
 							<div class="input-group w-100">
 
-								<input type="text" class="form-control" placeholder="Rechercher">
+								<input type="text" class="form-control" placeholder="rechercher" name="q" required="required">
 
 								<div class="input-group-append">
 									<button class="btn btn-primary" type="submit">
@@ -28,9 +28,6 @@
 						<div class="widgets-wrap float-md-right">
 
 							{% comment %}
-								
-
-
 
 							<div class="widget-header mr-3">
 								<a href="#" class="widget-view">
@@ -54,6 +51,7 @@
 								<a href="#" class="widget-view">
 									<div class="icon-area">
 										<i class="fa fa-store"></i>
+											<i class="fas fa-sign-out-alt" ></i>
 									</div>
 									<small class="text"> Orders </small>
 								</a>
@@ -69,22 +67,59 @@
 							
 							{% endcomment %}
 
+							
+							{% if user.id is not None %}
+
 							<div class="widget-header mr-3">
-								<a href="#" class="widget-view">
+								<a href="{% url 'accounts:logout' %}" class="widget-view">
+									<div class="icon-area">
+										<i class="fa fa-user"></i>
+										<span class="notify">3</span>
+									</div>
+									<small class="text">Profil </small>
+								</a>
+							</div>
+
+							<div class="widget-header mr-3">
+								<a href="{% url 'carts:carts' %}" class="widget-view">
+									<div class="icon-area">
+										<i class="fa fa-shopping-cart"></i>
+									<span class="notify">{{ cart_count }}</span>
+									</div>
+									<small class="text"> Panier </small>
+								</a>
+							</div>
+
+							{% else %}
+
+							<div class="widget-header mr-3">
+								<a 
+								
+								{% if 'accounts:register' in request.path %}
+								  class = "widget-view active"
+								{% else %}
+								  class = "widget-view"
+								{% endif %}	
+
+								href="{% url 'accounts:register' %}" >
+									<div class="icon-area">
+										<i class="fa fa-user-plus"></i>
+									</div>
+									<small class="text" title="S'inscrire"> S'inscrire </small>
+								</a>
+							</div>
+
+							<div class="widget-header mr-3">
+								<a href="{% url 'accounts:login' %}" class="widget-view">
 									<div class="icon-area">
 										<i class="fas fa-sign-in-alt" ></i>
 									</div>
 									<small class="text" title="Se connecter">Se connecter </small>
 								</a>
 							</div>
-							<div class="widget-header mr-3">
-								<a href="#" class="widget-view">
-									<div class="icon-area">
-										<i class="fas fa-sign-out-alt" ></i>
-									</div>
-									<small class="text">Se déconnecter </small>
-								</a>
-							</div>
+
+							  
+							{% endif %}
 
 							<div class="widget-header mr-3">
 								<a
@@ -102,17 +137,8 @@
 									<small class="text"> Store </small>
 								</a>
 							</div>
+							
 
-
-							<div class="widget-header">
-								<a href="#" class="widget-view">
-									<div class="icon-area">
-										<i class="fa fa-shopping-cart"></i>
-
-									</div>
-									<small class="text"> Panier </small>
-								</a>
-							</div>
 						</div> <!-- widgets-wrap.// -->
 					</div> <!-- col.// -->
 				</div> <!-- row.// -->
