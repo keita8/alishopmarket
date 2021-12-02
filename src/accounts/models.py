@@ -59,7 +59,7 @@ class Account(AbstractBaseUser):
 	last_name  = models.CharField(max_length=80, verbose_name='Prenom')
 	username   = models.CharField(max_length=80, unique=True, verbose_name="Nom d'utilisateur")
 	email      = models.CharField(max_length=200, unique=True, verbose_name='Email')
-	phone      = models.CharField(max_length=20, verbose_name='Telephone')
+	# phone      = models.CharField(max_length=20, verbose_name='Telephone')
 	# phone      = PhoneNumberField()
 
 

@@ -160,11 +160,13 @@
 				article{{ product_count|pluralize }} 
 				disponible{{product_count|pluralize}}
 				</strong> 
-
+				
 				<select class="mr-2 form-control">
 					{% for cat in most_recent_categories  %}
 					
-					<option value="{{ cat.category_name }}"><a href="{{ cat.get_url }}"></a> {{cat.category_name|safe|capfirst}}</a> </option>
+					<option value="{{ cat.category_name }}">
+						<a href="{{ cat.get_url }}"></a> {{cat.category_name|safe|capfirst}}</a> 
+					</option>
 					
 					{% endfor %}
 				</select>

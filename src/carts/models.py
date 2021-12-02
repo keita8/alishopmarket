@@ -4,7 +4,7 @@ from store.models import Product
 # Create your models here.
 class Cart(models.Model):
 
-	cart_id = models.CharField(max_length=250, blank=True)
+	cart_id = models.CharField(max_length=250, blank=True, verbose_name='Panier')
 	date_added = models.DateTimeField(auto_now_add=True, verbose_name="Date de creation du panier")
 
 	class Meta:
