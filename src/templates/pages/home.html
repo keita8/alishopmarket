@@ -1,5 +1,6 @@
 {% extends "base/base.html" %}
 {% load static %}
+{% load humanize %}
 
 {% block title %}
 	Accueil
@@ -26,27 +27,14 @@
 				<div class="card card-product-grid">
 					<a href="{{ article.get_url }}" class="img-wrap"> 
 
-						{% if new in article.condition %}
+						<!-- {% if new in article.condition %} -->
 						
 							<span class="badge badge-success">
-								{{new}}
+								New
 							</span>
 
-						{% elif used in article.condition  %}
 
-							<span class="badge badge-warning">
-								{{used}}
-							</span>
-
-						{% elif old in article.condition %}
-
-							<span class="badge badge-danger">
-								{{old}}
-							</span>
-
-						{% else %}
-
-						{% endif %}
+						<!-- {% endif %} -->
 
 						<img src="{{ article.image.url }}"> 
 					</a>
@@ -63,7 +51,7 @@
 							<a href="{{ article.category.get_url }}" class="text-muted"> {{article.category.category_name|capfirst }} </a>
 		                	<a href="{{ article.get_url }}" class="title">{{ article.product_name|safe|capfirst }}</a>
 						</div>
-						<div class="price h5 mt-2">$ {{article.price|floatformat:2}} </div> <!-- price.// -->
+						<div class="price h5 mt-2">{{article.price|floatformat:2}} GNF</div> <!-- price.// -->
 					</figcaption>
 				</div>
 			</div> <!-- col.// -->

@@ -27,48 +27,9 @@
 					<div class="col-xl-4 col-lg-4 col-md-6">
 						<div class="widgets-wrap float-md-right">
 
-							{% comment %}
-
-							<div class="widget-header mr-3">
-								<a href="#" class="widget-view">
-									<div class="icon-area">
-										<i class="fa fa-user"></i>
-										<span class="notify">3</span>
-									</div>
-									<small class="text"> My profile </small>
-								</a>
-							</div>
-							<div class="widget-header mr-3">
-								<a href="#" class="widget-view">
-									<div class="icon-area">
-										<i class="fa fa-comment-dots"></i>
-										<span class="notify">1</span>
-									</div>
-									<small class="text"> Message </small>
-								</a>
-							</div>
-							<div class="widget-header mr-3">
-								<a href="#" class="widget-view">
-									<div class="icon-area">
-										<i class="fa fa-store"></i>
-											<i class="fas fa-sign-out-alt" ></i>
-									</div>
-									<small class="text"> Orders </small>
-								</a>
-							</div>
-							<div class="widget-header mr-3">
-								<a href="#" class="widget-view">
-									<div class="icon-area">
-										<i class="fa fa-user-circle"></i>
-									</div>
-									<small class="text" title="Profil"> User </small>
-								</a>
-							</div>
-							
-							{% endcomment %}
 
 							
-							{% if user.id is not None %}
+							{% if request.user.is_authenticated %}
 
 							<div class="widget-header mr-3">
 								<a href="{% url 'accounts:logout' %}" class="widget-view">
@@ -105,7 +66,7 @@
 									<div class="icon-area">
 										<i class="fa fa-user-plus"></i>
 									</div>
-									<small class="text" title="S'inscrire"> S'inscrire </small>
+									<small class="text" title="S'inscrire"> S'inscrire ici </small>
 								</a>
 							</div>
 
@@ -145,7 +106,7 @@
 			</div> <!-- container.// -->
 		</section> <!-- header-main .// -->
 
-
+<!-- 
 		<nav class="navbar navbar-main navbar-expand-lg border-bottom">
 			<div class="container">
 				<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#main_nav"
@@ -166,28 +127,10 @@
 
 
 					</ul>
-					{% comment %}
 
-					<ul class="navbar-nav ml-md-auto">
-						<li class="nav-item">
-							<a class="nav-link" href="#">Télécharger l'app</a>
-						</li>
-						<li class="nav-item dropdown">
-							<a class="nav-link dropdown-toggle" href="http://example.com"
-								data-toggle="dropdown">Français</a>
-							<div class="dropdown-menu dropdown-menu-right">
-								<a class="dropdown-item" href="#">Russian</a>
-								<a class="dropdown-item" href="#">English</a>
-								<a class="dropdown-item" href="#">Spanish</a>
-								<a class="dropdown-item" href="#">Chinese</a>
-							</div>
-						</li>
-					</ul>
-						
-					{% endcomment %}
 
-				</div> <!-- collapse .// -->
-			</div> <!-- container .// -->
-		</nav>
-	</header> <!-- section-header.// -->
+				</div>
+			</div> 
+		</nav> -->
+	</header> 
 

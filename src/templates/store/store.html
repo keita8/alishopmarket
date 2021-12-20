@@ -160,16 +160,7 @@
 				article{{ product_count|pluralize }} 
 				disponible{{product_count|pluralize}}
 				</strong> 
-				
-				<select class="mr-2 form-control">
-					{% for cat in most_recent_categories  %}
-					
-					<option value="{{ cat.category_name }}">
-						<a href="{{ cat.get_url }}"></a> {{cat.category_name|safe|capfirst}}</a> 
-					</option>
-					
-					{% endfor %}
-				</select>
+
 				{% else %}
 					
 
@@ -192,20 +183,6 @@
 							<span class="badge badge-success">
 								{{new}}
 							</span>
-
-						{% elif used in product.condition  %}
-
-							<span class="badge badge-warning">
-								{{used}}
-							</span>
-
-						{% elif old in product.condition %}
-
-							<span class="badge badge-danger">
-								{{old}}
-							</span>
-
-						{% else %}
 
 						{% endif %}
 
@@ -233,7 +210,7 @@
 					
 						<p class="mb-3">
 							<span class="tag"> <i class="fa fa-check"></i> Verified</span> 
-							<span class="tag"> 5 Years </span> 
+							<span class="tag"> {{ product.year }}</span> 
 							<span class="tag"> 80 reviews </span>
 							<span class="tag"> {{product.manufacturer}} </span>
 						</p>
@@ -245,7 +222,7 @@
 				<aside class="col-sm-3">
 					<div class="info-aside">
 						<div class="price-wrap">
-							<span class="h5 price">£{{ product.price|floatformat:2 }}</span> 
+							<span class="h5 price">{{ product.price|floatformat:2 }} GNF</span> 
 							<!-- <small class="text-muted">/unité</small> -->
 						</div> <!-- price-wrap.// -->
 						<small class="text-warning">
@@ -254,7 +231,7 @@
 							{% endif %}
 						</small>
 						
-						<p class="text-muted mt-3">Grand textile Co</p>
+						{# <p class="text-muted mt-3">Grand textile Co</p> #}
 						<p class="mt-3">
 							<a href="{% url 'carts:add_cart' product.id %}" class="btn btn-outline-primary"> <i class="fas fa-shopping-cart"></i> Ajouter au panier </a>
 							<!-- <a href="#" class="btn btn-light"><i class="fa fa-heart"></i> Save </a> -->

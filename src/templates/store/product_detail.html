@@ -11,8 +11,8 @@
 <!-- ========================= SECTION CONTENT ========================= -->
 <section class="section-content bg-white padding-y">
   	<div class="container">
-		<form action="">
-
+		<form action="{% url 'carts:add_cart' single_product.id %}" method="POST">
+			{% csrf_token %}
 			<!-- ============================ ITEM DETAIL ======================== -->
 			<div class="row">
 					<aside class="col-md-6">
@@ -70,8 +70,8 @@
 								</div> 
 
 								<div class="mb-3"> 
-									<var class="price h4">£ {{ single_product.price|floatformat:2 }}</var> 
-									<span class="text-muted">£ 562.65 incl. VAT</span> 
+									<var class="price h4">{{ single_product.price|floatformat:2 }} GNF</var> 
+									<!-- <span class="text-muted">£ 562.65 incl. VAT</span>  -->
 								</div>
 
 								<p>{{ single_product.description|safe }}</p>
@@ -79,16 +79,18 @@
 
 								<dl class="row">
 									<dt class="col-sm-3">Fabricant</dt>
-									<dd class="col-sm-9"><a href="#">{{ single_product.manufacturer|safe }}</a></dd>
+									<dd class="col-sm-9"><a>{{ single_product.manufacturer|safe }}</a></dd>
 
 									<dt class="col-sm-3">Article numéro</dt>
 									<dd class="col-sm-9">596 065</dd>
 
-									<dt class="col-sm-3">Guarantie</dt>
-									<dd class="col-sm-9">2 ans</dd>
-
+									{% if single_product.free_shipping %}
+										
 									<dt class="col-sm-3">Livraison</dt>
-									<dd class="col-sm-9">3-4 jours</dd>
+									<dd class="col-sm-9">Oui</dd>
+
+									{% endif %}
+
 
 									<dt class="col-sm-3">Disponible</dt>
 
@@ -104,24 +106,55 @@
 
 								</dl>
 
+									
 								<div class="form-row  mt-4">
 									
-									{% if single_product.stock <= 0 or single_product.is_available == False %}
-
-									{% else %}
+									{% if single_product.variation_set.colors and single_product.variation_set.sizes %}
+										
 									<div class="form-group col-md">
-										<a href="{% url 'carts:add_cart' single_product.id %}"  class="btn  btn-primary"> 
-											<i class="fas fa-shopping-cart"></i> <span class="text">Ajouter au panier</span> 
-										</a>
-										<a href="#" class="btn btn-light">
-										<i class="fas fa-envelope"></i> <span class="text">Contact supplier</span> 
-										</a>
-								</div>
-								{% endif %}
+																			
+										<select name="color" id="" class="form-control col-sm-3 col-md-4" required>
+											<option value="" disabled selected>Couleur</option>
+											{% for i in single_product.variation_set.colors  %}
+												
+											<option value="{{ i.variation_value | lower }}">{{ i.variation_value | safe | capfirst }}</option>
+
+											{% endfor %}
+
+										</select>
+										<br>
+
+										<select name="size" id="" class="form-control col-sm-3 col-md-4" required>
+											<option value="" disabled selected >Taille</option>
+											{% for i in single_product.variation_set.sizes  %}
+												
+											<option value="{{ i.variation_value | lower }}">{{ i.variation_value | safe | capfirst }}</option>
+
+											{% endfor %}
+										</select>
+										
+									</div>
+
+									{% endif %}
+
+
 								</div> 
+
+								{% if single_product.stock >= 1 or single_product.is_available != False %}
+
+
+								<div class="form-group col-md">
+										<button href=""  class="btn  btn-primary"> 
+											<i class="fas fa-shopping-cart"></i> <span class="text">Ajouter au panier</span> 
+										</button>
+								</div>
+
+							{% endif %}
+
 						</article>
 					</main> 
 			</div> 
+
 		</form>
       <!-- ================ ITEM DETAIL END .// ================= -->
 	</div> <!-- container .//  -->
@@ -137,35 +170,15 @@
     		<p>
         {{ single_product.description|safe }}
     		</p>
-    		<ul class="list-check">
-    		<li>Material: Stainless steel</li>
-    		<li>Weight: 82kg</li>
-    		<li>built-in drip tray</li>
-    		<li>Open base for pots and pans</li>
-    		<li>On request available in propane execution</li>
-    		</ul>
 
+    		{% if single_product.specification %}
+    			
     		<h5 class="title-description">Specifications</h5>
-    		<table class="table table-bordered">
-    			<tr> <th colspan="2">Basic specs</th> </tr>
-    			<tr> <td>Type of energy</td><td>Lava stone</td> </tr>
-    			<tr> <td>Number of zones</td><td>2</td> </tr>
-    			<tr> <td>Automatic connection	</td> <td> <i class="fa fa-check text-success"></i> Yes </td></tr>
 
-    			<tr> <th colspan="2">Dimensions</th> </tr>
-    			<tr> <td>Width</td><td>500mm</td> </tr>
-    			<tr> <td>Depth</td><td>400mm</td> </tr>
-    			<tr> <td>Height	</td><td>700mm</td> </tr>
+    		{{ single_product.specification|safe }}
 
-    			<tr> <th colspan="2">Materials</th> </tr>
-    			<tr> <td>Exterior</td><td>Stainless steel</td> </tr>
-    			<tr> <td>Interior</td><td>Iron</td> </tr>
+    		{% endif %}
 
-    			<tr> <th colspan="2">Connections</th> </tr>
-    			<tr> <td>Heating Type</td><td>Gas</td> </tr>
-    			<tr> <td>Connected load gas</td><td>15 Kw</td> </tr>
-
-    		</table>
     	</div> <!-- col.// -->
     	
     	<aside class="col-md-4">
@@ -174,7 +187,7 @@
     		
     		<h5 class="title-description">Files</h5>
     			<p>
-    				{% lorem p random %}.
+    				{% lorem p random %}
     			</p>
 
         <h5 class="title-description">Videos</h5>

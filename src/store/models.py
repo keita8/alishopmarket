@@ -2,9 +2,8 @@ from django.db import models
 from category.models import Category
 from django.shortcuts import reverse, render
 from datetime import datetime
-from ckeditor.fields import RichTextField
-from multiselectfield import MultiSelectField
-
+# from tinymce.models import HTMLField
+# from tinymce import models as tinymce_models
 # Create your models here.
 class Product(models.Model):
 
@@ -53,9 +52,8 @@ class Product(models.Model):
 
     condition_choice = (
 
-    	('Nouveauté', 'Nouveauté'),
-    	('Usagé','Usagé'),
-    	('Ancien','Ancien')
+    	('New', 'New'),
+
     )
 
     year_choice = []
@@ -65,21 +63,20 @@ class Product(models.Model):
 
     product_name  = models.CharField(max_length=200, verbose_name="Article")
     slug          = models.SlugField(max_length=200)
-    # brand         = models.CharField(max_length=200, verbose_name='Marque', blank=True)
-    description   = RichTextField()
+    description   = models.TextField()
     manufacturer  = models.CharField(choices=state_choice, max_length=50, blank=True, verbose_name='Fabricant')
     condition     = models.CharField(choices=condition_choice, max_length=200, blank=True)
     year          = models.IntegerField(('Année'), choices=year_choice, default='2021')
     price         = models.IntegerField(verbose_name='Prix', default=0)
-    category      = models.ForeignKey(Category, on_delete=models.CASCADE, verbose_name='Categorie de l\'article')
-    features      = MultiSelectField(choices=features_choices, blank=True, verbose_name='Caracteristiques')
+    category      = models.ForeignKey(Category, on_delete=models.CASCADE, verbose_name='Categorie de l\'article', related_name='categorie')
+    features      = models.CharField(choices=features_choices, blank=True, verbose_name='Caracteristiques', max_length=200)
+    specification = models.TextField(blank=True, null=True)
     image         = models.ImageField()
     image1        = models.ImageField(blank=True)
     image2        = models.ImageField(blank=True)
     image3        = models.ImageField(blank=True)
     image4        = models.ImageField(blank=True)
     stock         = models.IntegerField(default=0)
-    # new_item      = models.BooleanField(default=False, verbose_name='Nouveauté ?')
     is_available  = models.BooleanField(default=True, verbose_name='Disponible ?')
     free_shipping = models.BooleanField(default=False, verbose_name='Livraison gratuite ?')
     created_date  = models.DateTimeField(auto_now_add=True, verbose_name="Date d'ajout")
@@ -95,3 +92,38 @@ class Product(models.Model):
 
     def __str__(self):
     	return self.product_name
+
+
+class Banner(models.Model):
+    image1 = models.ImageField(upload_to='banner/images')
+    image2 = models.ImageField(upload_to='banner/images')
+
+    class Meta:
+        verbose_name = "Bannière"
+        verbose_name_plural = "Bannières"
+
+
+
+class VariationManager(models.Manager):
+    def colors(self):
+        return super(VariationManager, self).filter(variation_category='color', is_active=True)
+
+    def sizes(self):
+        return super(VariationManager, self).filter(variation_category='size', is_active=True)
+
+variation_category_choice = (
+    ('color', 'color'),
+    ('size', 'size'),
+)
+
+class Variation(models.Model):
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, verbose_name="Article")
+    variation_category = models.CharField(max_length=100, choices=variation_category_choice, verbose_name="Caracteristiques")
+    variation_value     = models.CharField(max_length=100, verbose_name="valeur de la caracteristique")
+    is_active           = models.BooleanField(default=True, verbose_name="Deja active ?")
+    created_date        = models.DateTimeField(auto_now=True, verbose_name="Date de creation")
+
+    objects = VariationManager()
+
+    def __str__(self):
+        return self.variation_value
