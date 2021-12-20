@@ -1,6 +1,6 @@
 from django.db import models
 from store.models import Product, Variation
-
+from accounts.models import Account
 # Create your models here.
 class Cart(models.Model):
 
@@ -16,22 +16,40 @@ class Cart(models.Model):
 		return self.cart_id
 
 
-
-
-
 class CartItem(models.Model):
-	product = models.ForeignKey(Product, on_delete=models.CASCADE, verbose_name='Article du panier')
-	cart = models.ForeignKey(Cart, on_delete=models.CASCADE, verbose_name='Panier associé à cet article')
-	variations = models.ManyToManyField(Variation, verbose_name='Caracteristiques')
-	quantity = models.IntegerField(verbose_name='Quantité')
-	is_active = models.BooleanField(verbose_name='Panier actif', default=True)
+
+	user       = models.ForeignKey(Account, on_delete=models.CASCADE, null=True, verbose_name='Utilisateur')
+	product    = models.ForeignKey(Product, on_delete=models.CASCADE, verbose_name='Article')
+	cart       = models.ForeignKey(Cart, on_delete=models.CASCADE, verbose_name='Panier', null=True)
+	variations = models.ManyToManyField(Variation, blank=True, verbose_name='Caracteristiques')
+	quantity   = models.IntegerField(verbose_name='quantité')
+	is_active  = models.BooleanField(verbose_name='Article du panier actif ?' ,default=True)
 
 	class Meta:
-		verbose_name = 'Article du panier'
-		verbose_name_plural = 'Articles du panier'
+		verbose_name = 'Article au panier'
+		verbose_name_plural = 'Articles au panier'
 
 	def sub_total(self):
-		return (self.product.price * self.quantity)
+		return self.product.price * self.quantity
 
-	def __str__(self):
-		return str(self.product)
+	def __unicode__(self):
+		return self.product
+
+
+
+# class CartItem(models.Model):
+# 	product = models.ForeignKey(Product, on_delete=models.CASCADE, verbose_name='Article du panier')
+# 	cart = models.ForeignKey(Cart, on_delete=models.CASCADE, verbose_name='Panier associé à cet article')
+# 	variations = models.ManyToManyField(Variation, verbose_name='Caracteristiques')
+# 	quantity = models.IntegerField(verbose_name='Quantité')
+# 	is_active = models.BooleanField(verbose_name='Panier actif', default=True)
+
+# 	class Meta:
+# 		verbose_name = 'Article du panier'
+# 		verbose_name_plural = 'Articles du panier'
+
+# 	def sub_total(self):
+# 		return (self.product.price * self.quantity)
+
+# 	def __str__(self):
+# 		return str(self.product)

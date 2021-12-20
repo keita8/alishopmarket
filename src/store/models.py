@@ -106,14 +106,14 @@ class Banner(models.Model):
 
 class VariationManager(models.Manager):
     def colors(self):
-        return super(VariationManager, self).filter(variation_category='color', is_active=True)
+        return super(VariationManager, self).filter(variation_category='couleur', is_active=True)
 
     def sizes(self):
-        return super(VariationManager, self).filter(variation_category='size', is_active=True)
+        return super(VariationManager, self).filter(variation_category='taille', is_active=True)
 
 variation_category_choice = (
-    ('color', 'color'),
-    ('size', 'size'),
+    ('couleur', 'couleur'),
+    ('taille', 'taille'),
 )
 
 class Variation(models.Model):

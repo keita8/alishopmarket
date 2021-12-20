@@ -138,7 +138,7 @@ def forgot_password(request):
             to_email=email
             send_email=EmailMessage(mail_subject, message, to=[to_email])
             send_email.send()
-            messages.success(request, 'Le lien de réinitialisation de votre mot de passe vous a été envoyé ')
+            messages.success(request, 'Un lien de réinitialisation de votre mot de passe vous a été envoyé ')
             return redirect('accounts:login')
 
         else:
